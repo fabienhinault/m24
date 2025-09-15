@@ -76,7 +76,7 @@ function L([a0, a1, ...a2_23]) {
 }
 
 function R([a0, ...a1_23]) {
-    return [a0,  a1_23[22], ...a1_22.slice(0, 21)];
+    return [a0,  a1_23[22], ...a1_23.slice(0, 22)];
 }
 
 function S([a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,
@@ -91,4 +91,4 @@ function equalsRawGoal(rawNumbers) {
     return equalArrays(rawNumbers, range(23));
 }
 
-export {L, R, S};
+export {L, R, S, range, equalArrays, getRandomInt, pick};
