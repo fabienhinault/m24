@@ -1,4 +1,4 @@
-import { L, R, S } from "./libm24.js";
+import { L, R, S, range, equalArrays, getRandomInt, pick } from "./libm24.js";
 
 
 class Chrono {
@@ -15,14 +15,29 @@ class Chrono {
     }
 }
 
+class DummyEventDispatcher{
+    addEventListener(strMsg, callback) {
+    }
+
+
+    dispatchEvent(evt) {
+    }
+}
+
+const goal = range(24);
+
 class Model {
-    constructor(frame, evtDispatcher) {
+    constructor(evtDispatcher) {
         this.dispatcher = evtDispatcher;
         this.previousNumbers = [];
-        this.numbers = range(this.N, 1);
+        this.numbers = range(24);
         this.lasts = [];
         this.dispatcher.addEventListener('numbers changed', evt => {this.updateSolution();});
         this.chrono = new Chrono();
+    }
+
+    equalsGoal() {
+        return equalArrays(this.numbers, goal);
     }
 
     dispatch(type, detail) {
@@ -50,7 +65,7 @@ class Model {
     }
 
     setNumbers(newNumbers) {
-        if (this.frame.equalsPrettyGoal(newNumbers)) {
+        if (this.equalsGoal()) {
             const time = this.chrono.stop();
             this.dispatcher.dispatchEvent(
                 new CustomEvent("solved", {detail: {time: time}}));
@@ -89,7 +104,7 @@ class Model {
     }
 
     S() {
-        this.silentR();
+        this.silentS();
         return this.dispatcher.dispatchEvent(
             new CustomEvent("numbers changed", {detail: {numbers: this.numbers}}));
     }
@@ -119,4 +134,4 @@ class Model {
     }     
 };
 
-export {Chrono, Model};
+export {Chrono, Model, DummyEventDispatcher};
