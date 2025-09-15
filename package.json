@@ -15,6 +15,10 @@
   "type": "module",
   "main": "m24Model.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
+  },
+  
+  "devDependencies": {
+    "mocha": "^11.7.2"
   }
 }
