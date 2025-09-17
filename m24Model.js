@@ -25,14 +25,14 @@ class DummyEventDispatcher{
 }
 
 const goal = range(24);
+const N = 24;
 
 class Model {
     constructor(evtDispatcher) {
         this.dispatcher = evtDispatcher;
         this.previousNumbers = [];
-        this.numbers = range(24);
+        this.numbers = range(N);
         this.lasts = [];
-        this.dispatcher.addEventListener('numbers changed', evt => {this.updateSolution();});
         this.chrono = new Chrono();
     }
 
@@ -126,10 +126,12 @@ class Model {
         for(let iTime = 0; iTime < nbTimes; iTime++){
             pick([() => this.silentL(), () => this.silentR(), () => this.silentS()])();
         }
+        this.dispatcher.dispatchEvent(
+            new CustomEvent("numbers changed", {detail: {numbers: this.numbers}}));
     }
 
     reset() {
-        this.setNumbers(range(23));
+        this.setNumbers(range(N));
         this.setLasts([]);
     }     
 };
