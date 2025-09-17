@@ -71,5 +71,14 @@ describe('M 24', function () {
         model.shuffleDefault();
         ok(!model.equalsGoal());
     });
+
+    it('SR s period is 3', function () {
+      let model = new Model(new DummyEventDispatcher());
+      for(let i = 0; i < 3; i++) {
+        model.S();
+        model.R();
+      }
+      ok(model.equalsGoal());
+    });
   });
 });
