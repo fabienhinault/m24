@@ -136,8 +136,8 @@ function R() {
             if (['J'].includes(key)) {
                 R();
             }
-            // S for space
-            if ([' '].includes(key)) {
+            // S for middle keys (not space, because it's detected both up and down)
+            if (['G', 'H'].includes(key)) {
                 S();
             }
         }
