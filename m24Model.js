@@ -118,6 +118,26 @@ class Model {
         }
     }
 
+    applyN(n) {
+        if (n < 0) {
+            for (let i = 0; i < -n; i++) {
+                this.L();
+            }
+        } else {
+            for (let i = 0; i < n; i++) {
+                this.R();
+            }
+        }
+    }
+
+    applyArray(arr) {
+        this.applyN(arr[0]);
+        for (const n of arr.slice(1)) {
+            this.S();
+            this.applyN(n);
+        }
+    }
+
     shuffleDefault() {
         this.shuffleNTimes(getRandomInt(100, 200));
     }
