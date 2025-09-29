@@ -81,6 +81,31 @@ describe('M 24', function () {
       ok(model.equalsGoal());
     });
 
+    it('(RS)^3 = R(SRSR)S = R(SR)^-1S = RR^-1S^-1S = I', function () {
+      let model = new Model(new DummyEventDispatcher());
+      for(let i = 0; i < 3; i++) {
+        model.R();
+        model.S();
+      }
+      ok(model.equalsGoal());
+    });
+
+
+    it('(LS)^3 = (SL)^3 = I', function () {
+      let model = new Model(new DummyEventDispatcher());
+      for(let i = 0; i < 3; i++) {
+        model.L();
+        model.S();
+      }
+      ok(model.equalsGoal());
+      for(let i = 0; i < 3; i++) {
+        model.S();
+        model.L();
+      }
+      ok(model.equalsGoal());
+    });
+
+
     it('applyArray', function () {
       let model = new Model(new DummyEventDispatcher());
       model.applyArray([2, -3, 12, 0]);
@@ -102,46 +127,15 @@ describe('M 24', function () {
       deepEqual(model.numbers, res);
     });
 
-    it('RRSLLLSRRRRRRRRRRRRS = [2, -3, 12, 0] keeps 0 and 1. Period 6.', function () {
-      let model = new Model(new DummyEventDispatcher());
-      for (let i = 0; i < 6; i++) {
-        model.applyArray([2, -3, 12, 0]);
-        equal(model.numbers[0], 0);
-        equal(model.numbers[1], 1);
-        ok(!model.equalsGoal());
-      }
-      model.applyArray([2, -3, 12, 0]);
-      ok(model.equalsGoal());
-    });
-
-    it('[3, -2, -4, 0] keeps 0 and 1. Period 5.', function () {
-      let model = new Model(new DummyEventDispatcher());
-      for (let i = 0; i < 5; i++) {
-        model.applyArray([3, -2, -4, 0]);
-        equal(model.numbers[0], 0);
-        equal(model.numbers[1], 1);
-        ok(!model.equalsGoal());
-      }
-      model.applyArray([3, -2, -4, 0]);
-      ok(model.equalsGoal());
-    });
-
-    it('[4, 2, -3, 0] keeps 0 and 1. Period 5.', function () {
-      let model = new Model(new DummyEventDispatcher());
-      let a = [4, 2, -3, 0];
-      for (let i = 0; i < 5; i++) {
-        model.applyArray(a);
-        equal(model.numbers[0], 0);
-        equal(model.numbers[1], 1);
-        ok(!model.equalsGoal());
-      }
-      model.applyArray(a);
-      ok(model.equalsGoal());
-    });
-
     it('simple transforms which keep 0 and 1, with periods', function () {
       let model = new Model(new DummyEventDispatcher());
-      let as = [[[2, -3, 12, 0], 7], [[3, -2, -4, 0], 6], [[4, 2, -3, 0], 6]];
+      let as = 
+        [[[2, -3, 12, 0], 7], [[3, -2, -4, 0], 6], [[4, 2, -3, 0], 6], [[5, -10, 11, 0], 5],
+         [[6, -7, 8, 0], 5], [[7, -6, 5, 0], 11], [[8, -9, 4, 0], 8], [[9, -8, 7, 0], 11],
+         [[10, -5, 6, 0], 5],
+         [[-2, -4, 9, 0], 11], [[-3, 12, 10, 0], 8], [[-4, 9, -8, 0], 8], [[-5, 6, -7, 0], 11],
+         [[-6, 5, -10, 0], 5], [[-7, 8, -9, 0], 11], [[-8, 7, -6, 0], 5], [[-9, 4, 2, 0], 11],
+         [[-10, 11, 3, 0],8]]
       for (let ap of as) {
         let a = ap[0];
         let period = ap[1];
